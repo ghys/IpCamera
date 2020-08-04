@@ -136,12 +136,14 @@ public class Ffmpeg {
                                 new DecimalType(++ipCameraHandler.gifHistoryLength));
                         break;
                     case "RECORD":
-                        logger.debug("MP4 has been created and is ready for use.");
                         try {
                             Thread.sleep(800);
                         } catch (InterruptedException e) {
                         }
+                        logger.debug("MP4 has been created and is ready for use.");
                         ipCameraHandler.setChannelState(CHANNEL_RECORD_MP4, DecimalType.ZERO);
+                        ipCameraHandler.setChannelState(CHANNEL_MP4_HISTORY_LENGTH,
+                                new DecimalType(++ipCameraHandler.mp4HistoryLength));
                         break;
                 }
             }

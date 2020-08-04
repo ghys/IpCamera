@@ -673,15 +673,17 @@ BabyCamZoom.sendCommand(0)
 
 ## FFmpeg Motion and Audio Alarms
 
-Any camera with a RTSP feed can use FFmpeg to create either a ``ffmpegMotionAlarm`` or ``audioAlarm``. Even if your camera has a motion alarm, you may find that it does not provide enough flexibility to ignore moving trees, or have its sensitivity adjusted on the fly like reducing its sensitivity during rain. This is where this feature can come in handy as you can even add your own FFmpeg arguments (options) to use the Crop or any other ffmpeg filter as this wont effect the video feeds you watch.
+Any camera with a RTSP feed can use FFmpeg to create either a ``ffmpegMotionAlarm`` or ``audioAlarm``.
+Even if your camera has a motion alarm, you may find that it does not provide enough flexibility to ignore moving trees, or have its sensitivity adjusted on the fly like reducing its sensitivity during rain. 
+This is where this feature can come in handy as you can even add your own FFmpeg arguments (options) to use the Crop or any other ffmpeg filter as this wont effect the video feeds you watch.
 <https://ffmpeg.org/ffmpeg-filters.html#Examples-52>
 
 
 To get this working:
 
-+ Provide a RTSP url to the binding to the config ``FFMPEG_MOTION_INPUT`` or you can leave it blank to use the auto detected url if your camera has ONVIF. You can provide a low resolution feed to this config to keep the CPU load down without having to sacrifice your main camera feeds quality.
++ Provide a RTSP url to the bindings config ``FFMPEG_MOTION_INPUT``, or you can leave it blank to use the auto detected url if your camera has ONVIF. The advantage of using a separate feed for this is that you can provide a low resolution and low frame rate feed using this config to keep the CPU load on your server to a minimum without having to sacrifice the feeds quality that you record or use to view the camera with.
 + Have FFmpeg installed and the binding knows the location of where to find it.
-+ You have the resolution and FPS at realistic settings for your CPU, you need to reach 1.x speed otherwise the alarm will lag further behind realtime the longer you have this running. 1080p and 10 fps for a ARM processor is probably a good place to start testing or even lower if you can.
++ You have the resolution and FPS at realistic settings for your CPU, you need to reach 1.x speed otherwise the alarm will lag further behind realtime the longer you have this running. 1080p and 10 fps maximum for an ARM processor is probably a good place to start testing or even lower if you can.
 + Set the ``ffmpegMotionControl`` channel to 16 with a slider control and if the alarm stays on increase the value until it works as desired. If it will not trigger, lower the control until it does.
 + Set the ``ffmpegMotionControl`` to OFF or 0 and it stops using your CPU. You can link this same channel to BOTH a switch and a slider at the same time if you like to have both types of controls.
 + The output of the alarm will go to a channel called ``ffmpegMotionAlarm`` and you can use the ``lastMotionType`` channel to determine which alarm was last tripped if your camera has multiple alarm types.
@@ -698,18 +700,14 @@ There are advantages to using these methods from the binding instead of directly
 
 **Ways to use snapshots are:**
 
-+ Use the cameras URL and fetch it directly so it passes from the camera to your end device ie a tablet without passing any data through the openHAB server. 
-For cameras like Dahua that refuse to allow DIGEST to be turned off, this is not an option. 
-The binding has some advantages which are explained below, so even if your camera can work directly, you may not wish to do so.
-+ Request a snapshot with the url ``http://192.168.xxx.xxx:54321/ipcamera.jpg`` (with 54321 being the SERVER_PORT number that you specify in the bindings setup) this will return the current snapshot without needing to wait for the camera to create and send a snapshot.
++ Use the cameras URL and fetch it directly so it passes from the camera to your end device ie a tablet without passing any data through the openHAB server. This is always the best option if it works.
++ Request a snapshot with the url ``http://192.168.xxx.xxx:54321/ipcamera.jpg``. The IP is for your Openhab server not the camera, and 54321 is the SERVER_PORT number that you specified in the bindings setup. This will return the current snapshot without needing to wait for the camera to create and send a snapshot. If you find the snapshot is old you can set the preroll to a number above 0 and this forces the camera to keep updating the stored jpg in ram.
 This file does not exist on disk and is served out of ram to keep disk writes to a minimum with this binding. 
-This means the binding can serve a jpg file much faster than a camera can directly as a camera usually waits for a keyframe, then has to compresses the data, before it can then be sent. 
+This means the binding can serve a jpg file much faster than a camera can directly as a camera usually waits for a keyframe, then has to compress the data, before it can finally be sent. 
 All of this takes time giving you a delay compared to serving the file from Ram and can make a sitemap or habpanel UI feel slow to respond if the pictures take time to appear.
 The ipcamera.jpg can also be cast, as most cameras can not cast their snapshots without using the binding.
 + Use the ``http://192.168.xxx.xxx:54321/snapshots.mjpeg`` to request a stream of snapshots to be delivered in mjpeg format. 
 See the streaming section for more info.
-This may have stop working in some browsers if the Poll time is more than 8 seconds. 
-For poll times above 8 seconds use the Image channel or ipcamera.jpg set to refresh.
 + Use the update GIF feature and use a preroll value >0. 
 This creates a number of snapshots in the ffmpeg output folder called snapshotXXX.jpg where XXX starts at 0 and increases each poll amount of time. 
 This means you can get a snapshot from an exact amount of time before, on, or after triggering the GIF to be created. 
@@ -717,9 +715,7 @@ Handy for cameras which lag due to slow processors and buffering, or if you do n
 These snapshots can be fetched either directly as they exist on disk, or via this url format. 
 ``http://192.168.xxx.xxx:54321/snapshot0.jpg`` Where the IP is your Openhab server and the port is what is setup in the binding as the SERVER_PORT.
 + The Image channel can be used but is not recommended unless the poll time is above 8 seconds as the image data passes through the event bus of Openhab that can create bottlenecks.
-The snapshots.mjpeg is a better way, or the newer autofps.mjpeg.
-+ You can also read the raw image data directly from the image channel and use it in rules, there are some examples on the forum how to do this, however it is far easier to use the above methods.
-+ Also worth a mention is that you can off load cameras to a software package running on a separate hardware server. These have their advantages, but can be overkill depending on what you plan to do with your cameras. Motion, Shinobi and Zoneminder are opensource projects worth checking out.
++ Also worth a mention is that you can off load cameras to a software package running on a separate hardware server. These have their advantages, but can be overkill depending on what you plan to do with your camera/s. Motion, Shinobi and Zoneminder are opensource projects worth checking out.
 
 
 See this forum thread for examples of how to use snapshots and streams in a sitemap.
@@ -730,29 +726,6 @@ If you use Habpanel, then these widgets are worth checking out.
 
 ## How to get working video streams
 
-IMPORTANT:
-The binding has its own file server that works by allowing access to the snapshot and video streams with no user/password for requests that come from an IP located in the white list. 
-Requests from outside IP's or internal requests that are not on the white list will fail to get any answer. 
-If you prefer to use your own firewall instead, you can also choose to make the ip whitelist equal "DISABLE" (now the default) to turn this feature off and then all internal IP's will have access.
-
-There are now multiple ways to get a moving picture:
-
-+ HLS (Http Live Streaming) which uses high resolution h264. 
-This can be used to cast to Chromecast devices, or can display video in many browsers.
-+ ipcamera.mjpeg whilst larger in size, it is more compatible for displaying in a wider range of UI's and browsers. It has less lag behind realtime when compared to HLS.
-Ffmpeg can be used to create this stream if your camera does not create one for you, but this uses more CPU. 
-A lot of cameras limit the resolution in this format, so consider using HLS, autofps.mjpeg, or snapshots.mjpeg instead which will be in higher resolution.
-+ snapshots.mjpeg is a special mjpeg stream created from the cameras snapshots that are taken at the polling rate.
-If the polling time is too long, this will not work so I suggest using it with 1000ms to 9000ms polling times.
-+ autofps.mjpeg This requires the poll time to be 1000ms and the motion alarm to be turned on or it will not work as intended.
-This feature is designed to keep data traffic to your mobile devices as low as possible by automatically sending 1fps when motion is occurring, but only 1 picture every 8 seconds when the picture has no motion.
-The idea is to not send lots of pictures if the picture has not changed as doing so only eats up your data plan.
-+ Animated GIF. This is small in size and very compatible and handy to use in push notifications, Pushover, Telegram, or emails.
-+ MP4 recordings can be created by the binding and FFmpeg, more on this below.
-
-See this forum thread for examples of how to use snapshots and streams.
-<https://community.openhab.org/t/ip-camera-how-to-clickable-thumbnail-overview-in-sitemaps-that-opens-up-to-a-larger-view/77990>
-
 To get some of the video formats working, you need to install the FFmpeg program. 
 Visit their site here to learn how <https://ffmpeg.org/>
 
@@ -762,7 +735,34 @@ Under Linux, FFmpeg can be installed very easily with this command.
 sudo apt update && sudo apt install ffmpeg
 ```
 
-**MP4 Recordings**
+IMPORTANT:
+The binding has its own file server that works by allowing access to the snapshot and video streams with no user/password for requests that come from an IP located in the white list. 
+Requests from outside IP's or internal requests that are not on the white list will fail to get any answer. 
+If you prefer to use your own firewall instead, you can also choose to make the ip whitelist equal "DISABLE" (the default since the feature also needs a valid SERVER_PORT set) to turn this feature off and then all internal IP's will have access.
+
+There are multiple ways to get a moving picture, to use them just enter the url into any browser using ``http://192.168.xxx.xxx:SERVER_PORT/name.format`` replacing the name.format with one of the options that are listed below:
+
++ **ipcamera.m3u8** HLS (Http Live Streaming) which uses h264 compression. 
+This can be used to cast to Chromecast devices, or can display video in many browsers (some browsers require a plugin to be installed). Please understand that this format due to the way it works will give you lag behind realtime, more on this below.
++ **ipcamera.mjpeg** whilst needing more bandwidth, it is far more compatible for displaying in a wider range of UI's and browsers. It is normally 1 second or less behind real-time.
+Ffmpeg can be used to create this stream if your camera does not create one for you, but this uses more CPU. 
+A lot of cameras limit the resolution in this format, so consider using HLS, autofps.mjpeg, or snapshots.mjpeg instead which will be in a higher resolution.
++ **snapshots.mjpeg** is a special mjpeg stream created from the cameras snapshots that are taken at the polling rate.
++ **autofps.mjpeg** This requires a camera that has a motion alarm to be turned on or it will only send a picture every 8 seconds. You can also use the ``externalMotion`` channel to change the framerate.
+This feature is designed to keep data traffic to your mobile devices as low as possible by automatically sending 1fps when motion is occurring, but only 1 picture every 8 seconds when the picture has no motion.
+The idea is to not send lots of pictures if the picture has not changed as doing so only eats up your data plan.
++ **ipcamera.gif** This is small in size and very compatible and handy to use in push notifications, Pushover, Telegram, or emails. You can cast it which can be handy to show a moving picture that keeps repeating on a Google/Nest home hub or your wall mounted tablet. 
++ MP4 recordings can be created by the binding and FFmpeg, more on this below.
+
+This forum thread has examples of how to use snapshots and streams in a sitemap.
+<https://community.openhab.org/t/ip-camera-how-to-clickable-thumbnail-overview-in-sitemaps-that-opens-up-to-a-larger-view/77990>
+
+If you use Habpanel, then these widgets are worth checking out.
+<https://community.openhab.org/t/custom-widget-camera-clickable-thumbnails-that-open-a-stream/101275>
+
+
+
+##MP4 Recordings##
 
 The binding can now use FFmpeg to create a recording to a file.
 To do this:
@@ -770,6 +770,9 @@ To do this:
 + Consider setting the String channel that is called `mp4Filename` to a date and time stamp in a format that you like, or leave the channel empty for the filename to default to `ipcamera.mp4`.
 + Change the Number channel called `recordMp4` to a number of how many seconds that you wish to record for. The recording will then start.
 + Once the file is created the channel `recordMp4` will change itself back to 0 which can be used to trigger a rule to send the file, or you could use this event to change a counter variable that is used in the filename to create `visitor1.mp4 visitor2.mp4`.
+
+There is also a Habpanel Widget worth checking out as the thread has an example on how to use the bindings mp4 filename history feature to track the filenames of recent recordings.
+<https://community.openhab.org/t/custom-widget-camera-history-and-live-popup/103082>
 
 
 *.items
@@ -807,38 +810,35 @@ end
 ##MJPEG Streams##
 
 Cameras that have built in MJPEG abilities can stream to openHAB with the MJPEG format with next to no CPU load and FFmpeg does not need to be installed.
-Cameras without this ability can still use this binding to convert their cameras h264 format to mjpeg (keep reading for more on this below) and this takes a lot of CPU power to handle the conversion. 
+Cameras without this ability can still use this binding to convert their cameras RTSP h264 format to mjpeg (keep reading for more on this below) and this takes a lot of CPU power to handle the conversion. 
 The alternative HLS format does not need the conversion, however due to HLS needing to buffer the files to disk, the HLS will result in lag (delay) behind real time. 
-For video without a delay, you need mjpeg and without a camera that can create it, you will need to use a lot of CPU power.
+For video without a delay, you need mjpeg and without a camera that can create it, you will need to use a lot of CPU power. This could be done in a dedicated video server which is a good idea with lots of cameras.
 
 An alternative way to keep the CPU load low is to use the ``snapshots.mjpeg`` feature of the binding to create a stream from the cameras snapshots instead of the RTSP stream.
 This is limited to 1 frame a second but often results in far greater picture quality, so be sure to try the different ways and choose what you prefer.
 
 The main cameras that can do mjpeg with very low CPU load are Amcrest, Dahua, Hikvision, Foscam HD and Instar HD.
-To set this up, see the special setup steps in this readme.
+To set this up, see the special setup steps for each brand in this readme.
 The binding can then distribute this stream to many devices around your home whilst the camera only sees a single open stream.
 
 To request the mjpeg stream from the binding, all you need to do is use this link changing the IP to that of your Openhab server and the SERVER_PORT to match the settings in the bindings setup for that camera. 
 ipcamera.mjpeg is not changed and stays the same for all of your cameras, it is the port that changes between multiple cameras, the rest stays the same. 
 
-<http://OpenhabIP:ServerPort/ipcamera.mjpeg>
+<http://OpenhabIP:SERVER_PORT/ipcamera.mjpeg>
 
 
-For cameras without the ability to create mjpeg streams onboard, the binding is now able to create mjpeg from the cameras RTSP source if FFmpeg is installed and will use the Openhab CPU to create the stream.
-If you wish to do this for multiple cameras at the same time, then consider setting up a separate video server running a software package to remove this high CPU load off your Openhab server.
+To use this feature, all you need to do is set the config as follows ``STREAM_URL_OVERRIDE="ffmpeg"`` to use your CPU to generate the mjpeg stream.
+If you leave the option blank the binding will warn you in the logs and still use ffmpeg, so by adding this line it will remove the warning from your logs. For cameras that have an API you can opt to not use the cameras stream and use ffmpeg instead by doing this as well.
 
-To use this feature, all you need to do is set ``STREAM_URL_OVERRIDE="ffmpeg"`` to use your CPU to generate the mjpeg stream.
-If you leave the option blank the binding will warn you in the logs and still use ffmpeg, so by adding this line it will remove the warning from your logs.
-
-Ffmpeg may require you to lower the resolution and/or the FPS to lower the CPU load down enough to run, you may need to experiment.
-To change the settings used by this feature the binding exposes the config ``FFMPEG_MJPEG_ARGUMENTS`` which the default is currently ``-q:v 10 -r 3 -update 1`` where 10 is the jpg quality/compression setting and -r 3 is how many frames per second to try and create.
-Always try to get the default settings working first before you begin to experiment.
+FFmpeg may require you to lower the resolution and/or the FPS to lower the CPU load down enough to run, you may need to experiment.
+To change the settings used by this feature the binding exposes the config ``FFMPEG_MJPEG_ARGUMENTS`` which the default is currently ``-q:v 5 -r 2 -update 1`` where 5 is the jpg quality/compression setting and -r 2 is how many frames per second to try and create. In this case it will create 2 frames every second and not use too much compression.
+Always try to get the default settings working first before you begin to experiment and if your stream is above 1080p and 10 frames per second, consider lowering it if you have issues on an ARM based server like a raspberry PIx.
  
 
 
-**snapshots.mjpeg and autofps.mjpeg a special kind of MJPEG Stream**
+##snapshots.mjpeg and autofps.mjpeg##
 
-These features allow you to request a mjpeg stream created by the binding with low CPU usage from the cameras snapshots.
+These similar features allow you to request a mjpeg stream created by the binding with low CPU usage from the cameras snapshots.
 Snapshots are usually high resolution and look great, however they are limited to a max of 1 frame per second (1 FPS).
 The reason this is more useful than snapshots on their own, is some UI's will flash white or black when a snapshot is refreshing, this does not happen with snapshots.mjpeg and is the same bandwidth and CPU load as just using snapshots!
 
@@ -850,13 +850,15 @@ NOTE: The IP is Openhabs not your cameras IP and the 54321 is what you have set 
 
 ``http://192.168.xxx.xxx:54321/snapshots.mjpeg``
 
-Use the following to display it in your sitemap or the habpanel equivalent.
+Use the following to display it in your sitemap.
 
-With motion alarm turned on and poll at 1000ms.
-``Video url="http://192.168.0.32:54321/autofps.mjpeg" encoding="mjpeg"``
+```
+Video url="http://192.168.0.32:54321/autofps.mjpeg" encoding="mjpeg"
 
-With a poll time below 9000ms
-``Video url="http://192.168.0.32:54321/snapshots.mjpeg" encoding="mjpeg"``
+Video url="http://192.168.0.32:54321/snapshots.mjpeg" encoding="mjpeg"
+```
+
+
 
 
 ##HLS (HTTP Live Streaming)##

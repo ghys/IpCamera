@@ -1108,7 +1108,7 @@ public class IpCameraHandler extends BaseThingHandler {
                     if (gifHistory.equals("")) {
                         gifHistory = gifFilename;
                     } else if (!gifFilename.equals("ipcamera") && gifHistoryLength < 50) {
-                        gifHistory += "," + gifFilename;
+                        gifHistory = gifFilename + "," + gifHistory;
                     }
                     setChannelState(CHANNEL_GIF_HISTORY, new StringType(gifHistory));
                 }
@@ -1126,9 +1126,9 @@ public class IpCameraHandler extends BaseThingHandler {
                 if (ffmpegRecord != null) {
                     ffmpegRecord.startConverting();
                     if (mp4History.equals("")) {
-                        mp4History = "mp4Filename";
+                        mp4History = mp4Filename;
                     } else if (!mp4Filename.equals("ipcamera") && mp4HistoryLength < 50) {
-                        mp4History += "," + mp4Filename;
+                        mp4History = mp4Filename + "," + mp4History;
                     }
                     setChannelState(CHANNEL_MP4_HISTORY, new StringType(mp4History));
                 }
