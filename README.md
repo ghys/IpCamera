@@ -764,12 +764,15 @@ If you use Habpanel, then these widgets are worth checking out.
 
 ##MP4 Recordings##
 
-The binding can now use FFmpeg to create a recording to a file.
+The binding can use FFmpeg to create a recording to a file.
 To do this:
 
 + Consider setting the String channel that is called `mp4Filename` to a date and time stamp in a format that you like, or leave the channel empty for the filename to default to `ipcamera.mp4`.
 + Change the Number channel called `recordMp4` to a number of how many seconds that you wish to record for. The recording will then start.
 + Once the file is created the channel `recordMp4` will change itself back to 0 which can be used to trigger a rule to send the file, or you could use this event to change a counter variable that is used in the filename to create `visitor1.mp4 visitor2.mp4`.
++ You can use the ``FFMPEG_MP4_OUT_ARGUMENTS`` config to apply any FFmpeg filters to the output file.
++ The channel ``mp4History`` keeps a string of the last 50 recording filenames (separated by commas) until you reset the history. The channel mp4Filename is where this channel gets the names from when a recording is triggered.
++ The channel ``mp4HistoryLength`` keeps track of how many filenames are in the mp4History String. You can send the '0' command to this channel to clear the mp4History string at the same time as setting this channel back to 0.
 
 There is also a Habpanel Widget worth checking out as the thread has an example on how to use the bindings mp4 filename history feature to track the filenames of recent recordings.
 <https://community.openhab.org/t/custom-widget-camera-history-and-live-popup/103082>
@@ -1030,14 +1033,14 @@ If you don't like doing things the easy way with a ready made widget, below are 
 ##Animated GIF feature##
 
 This binding has a channel called `updateGif` and when this switch is turned 'ON' (either by a rule or manually) the binding will create an animated GIF called ipcamera.gif in the ffmpeg output folder.
-You can change the filename using the string channel that is called `gifFilename` and an example of how to use this in a rule can be seen under the MP4 recording section.
-Once the file is created the switch will turn 'OFF' and this can be used to trigger a rule to send the picture via email, pushover or telegram messages. 
-This feature saves you from using sleep commands in your rules to ensure a file is created, as the control only turns off when the file is actually created.
-The switch can be turned on with a rule triggered by an external zwave PIR sensor or the cameras own motion alarm, the choice and the logic can be created by yourself.
+You can change the filename using the channel that is called `gifFilename` and an example of how to use this in a rule can be seen under the MP4 recording section. Both features are very similar.
+Once the file is created the switch will turn 'OFF' and this can be used to trigger a rule to send the picture via email, pushover or telegram messages. The channel ``gifHistory`` keeps a string of the last 50 filenames (separated by commas) until you reset the history. The channel ``gifHistoryLength`` keeps track of how many filenames are in the gifHistory String. You can send the '0' command to this channel to clear the gifHistory string at the same time as setting this channel back to 0.
+
+The `updateGif` switch can be turned on with a rule triggered by an external zwave PIR sensor or the cameras own motion alarm, the choice and the logic can be created by yourself.
 The feature has two options called preroll and postroll to be aware of.
 When preroll is 0 (the default) the binding will use the RTSP stream to fetch the amount of seconds specified in the postroll config to create the GIF from.
-By changing to a preroll value above 0 the binding will change to using snapshots as the source and this requires the jpeg to be updating.
-The time between the snapshots is the polling time of the camera (2 seconds by default) and can be raised or lowered to 1 second if you desire.
+By changing to a preroll value above 0 the binding will change to using snapshots as the source.
+The time between the snapshots then becomes the polling time of the camera (1 seconds by default) and can be raised if you desire.
 The snapshots are saved to disk and can be used as a feature that is described in the snapshot section above in more detail.
 
 You can request the gif by using this url, or by the path to where the file is stored:

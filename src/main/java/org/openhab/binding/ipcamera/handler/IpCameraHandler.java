@@ -1107,8 +1107,12 @@ public class IpCameraHandler extends BaseThingHandler {
                     ffmpegGIF.startConverting();
                     if (gifHistory.equals("")) {
                         gifHistory = gifFilename;
-                    } else if (!gifFilename.equals("ipcamera") && gifHistoryLength < 50) {
+                    } else if (!gifFilename.equals("ipcamera")) {
                         gifHistory = gifFilename + "," + gifHistory;
+                        if (gifHistoryLength > 49) {
+                            int endIndex = gifHistory.lastIndexOf(",");
+                            gifHistory = gifHistory.substring(0, endIndex);
+                        }
                     }
                     setChannelState(CHANNEL_GIF_HISTORY, new StringType(gifHistory));
                 }
@@ -1119,7 +1123,8 @@ public class IpCameraHandler extends BaseThingHandler {
                     inOptions = "-y -t " + mp4RecordTime;
                 }
                 ffmpegRecord = new Ffmpeg(this, format, config.get(CONFIG_FFMPEG_LOCATION).toString(), inOptions,
-                        rtspUri, "-an -vcodec copy", ffmpegOutputFolder + mp4Filename + ".mp4", username, password);
+                        rtspUri, config.get(CONFIG_FFMPEG_MP4_OUT_ARGUMENTS).toString(),
+                        ffmpegOutputFolder + mp4Filename + ".mp4", username, password);
                 if (mp4Preroll > 0) {
                     // fetchFromHLS(); todo: not done yet
                 }
@@ -1127,8 +1132,12 @@ public class IpCameraHandler extends BaseThingHandler {
                     ffmpegRecord.startConverting();
                     if (mp4History.equals("")) {
                         mp4History = mp4Filename;
-                    } else if (!mp4Filename.equals("ipcamera") && mp4HistoryLength < 50) {
+                    } else if (!mp4Filename.equals("ipcamera")) {
                         mp4History = mp4Filename + "," + mp4History;
+                        if (mp4HistoryLength > 49) {
+                            int endIndex = mp4History.lastIndexOf(",");
+                            mp4History = mp4History.substring(0, endIndex);
+                        }
                     }
                     setChannelState(CHANNEL_MP4_HISTORY, new StringType(mp4History));
                 }
@@ -1158,6 +1167,9 @@ public class IpCameraHandler extends BaseThingHandler {
                 } else if (motionAlarmEnabled == true) {
                     filterOptions = filterOptions
                             .concat(" -vf select='gte(scene," + motionThreshold + ")',metadata=print");
+                }
+                if (config.get(CONFIG_USERNAME) != null) {
+                    filterOptions += " ";// add space as the Framework does not allow spaces at start of config.
                 }
                 ffmpegRtspHelper = new Ffmpeg(this, format, config.get(CONFIG_FFMPEG_LOCATION).toString(), inOptions,
                         input, filterOptions + config.get(CONFIG_FFMPEG_MOTION_ARGUMENTS), OutputOptions, username,

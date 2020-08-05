@@ -258,6 +258,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <advanced>true</advanced>
 </parameter>
 
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
+<advanced>true</advanced>
+</parameter>
+
 <parameter name="FFMPEG_MJPEG_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
@@ -470,6 +478,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <description>This gives you direct access to specify your own ffmpeg options to be used for animated GIF files.
 </description>
 <default>-r 2 -filter_complex scale=-2:360:flags=lanczos,setpts=0.5*PTS,split[o1][o2];[o1]palettegen[p];[o2]fifo[o3];[o3][p]paletteuse</default>
+<advanced>true</advanced>
+</parameter>
+
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -693,6 +709,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <description>This gives you direct access to specify your own ffmpeg options to be used for animated GIF files.
 </description>
 <default>-r 2 -filter_complex scale=-2:360:flags=lanczos,setpts=0.5*PTS,split[o1][o2];[o1]palettegen[p];[o2]fifo[o3];[o3][p]paletteuse</default>
+<advanced>true</advanced>
+</parameter>
+
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -968,6 +992,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <advanced>true</advanced>
 </parameter>
 
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
+<advanced>true</advanced>
+</parameter>
+
 <parameter name="FFMPEG_MJPEG_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
@@ -1222,6 +1254,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <advanced>true</advanced>
 </parameter>
 
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
+<advanced>true</advanced>
+</parameter>
+
 <parameter name="FFMPEG_MJPEG_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
@@ -1470,6 +1510,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <description>This gives you direct access to specify your own ffmpeg options to be used for animated GIF files.
 </description>
 <default>-r 2 -filter_complex scale=-2:360:flags=lanczos,setpts=0.5*PTS,split[o1][o2];[o1]palettegen[p];[o2]fifo[o3];[o3][p]paletteuse</default>
+<advanced>true</advanced>
+</parameter>
+
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -1750,6 +1798,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <advanced>true</advanced>
 </parameter>
 
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
+<advanced>true</advanced>
+</parameter>
+
 <parameter name="FFMPEG_MJPEG_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
@@ -2010,6 +2066,14 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <description>This gives you direct access to specify your own ffmpeg options to be used for animated GIF files.
 </description>
 <default>-r 2 -filter_complex scale=-2:360:flags=lanczos,setpts=0.5*PTS,split[o1][o2];[o1]palettegen[p];[o2]fifo[o3];[o3][p]paletteuse</default>
+<advanced>true</advanced>
+</parameter>
+
+<parameter name="FFMPEG_MP4_OUT_ARGUMENTS" type="text" required="false" groupName="FFmpeg Setup">
+<label>FFMPEG_MP4_OUT_ARGUMENTS</label>
+<description>This gives you direct access to specify your own ffmpeg options to be used for recording MP4 files.
+</description>
+<default>-c:v copy -c:a copy</default>
 <advanced>true</advanced>
 </parameter>
 
