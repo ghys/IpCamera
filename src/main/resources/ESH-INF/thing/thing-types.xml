@@ -230,7 +230,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -270,7 +270,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -493,7 +493,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -724,7 +724,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -1004,7 +1004,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -1266,7 +1266,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -1525,7 +1525,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -1810,7 +1810,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 
@@ -2081,7 +2081,7 @@ The Image channel can be set to update in a number of ways. Recommend you set th
 <label>FFMPEG_MJPEG_ARGUMENTS</label>
 <description>This gives you direct access to specify your own ffmpeg options to be used for ipcamera.mjpeg streams.
 </description>
-<default>-q:v 5 -r 2 -update 1</default>
+<default>-q:v 5 -r 2 -vf scale=640:-2 -update 1</default>
 <advanced>true</advanced>
 </parameter>
 

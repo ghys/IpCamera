@@ -211,9 +211,8 @@ public class StreamServerHandler extends ChannelInboundHandlerAdapter {
                         ipCameraHandler.lockCurrentSnapshot.unlock();
                         ipCameraHandler.processSnapshot();
                     } else if (onvifEvent) {
-                        logger.debug("StreamServer recieved a new event");
                         ipCameraHandler.onvifCamera.eventRecieved(new String(incomingJpeg, StandardCharsets.UTF_8));
-                    } else {
+                    } else { // handles the snapshots that make up mjpeg from rtsp to ffmpeg conversions.
                         if (recievedBytes > 1000) {
                             ipCameraHandler.sendMjpegFrame(incomingJpeg, ipCameraHandler.mjpegChannelGroup);
                         }
