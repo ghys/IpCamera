@@ -995,6 +995,10 @@ Webview url="http://192.168.6.4:8080/static/html/file.html" height=5
 
 ## How to cast with HLS ##
 
+There are two ways to cast a camera.
+1. Asking Google to show X camera after you have tagged the metadata shown below.
+2. Using the Chromecast Binding and sending the url to the playuri channel. 
+
 After reading the information in the above sections, you can ask Google to 'Show the Front Door Camera' with the recently added metadata for the Cloud Connector.
  
 Don't forget to ask google to 'sync my devices' after adding the metadata shown below. You can also ask for any of the synonyms that you tag to ensure Google understands multiple names that the camera may be called.
@@ -1007,9 +1011,27 @@ String FrontDoorCamHlsUrl "Front Door" { channel="ipcamera:ONVIF:FrontDoor:hlsUr
 
 ```
 
+How to cast the camera from inside a rule using the Chromecast binding:
+
+items
+
+```
+String KitchenHomeHubPlayURI { channel="chromecast:chromecast:KitchenHomeHub:playuri" }
+
+```
 
 
-##Habpanel##
+In a rule...
+
+```
+
+KitchenHomeHubPlayURI.sendCommand("http://192.168.1.2:54321/ipcamera.m3u8")
+
+```
+
+
+
+## HABpanel ##
 
 This section is about how to get things working in Habpanel.
 
