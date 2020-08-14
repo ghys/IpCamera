@@ -19,10 +19,10 @@ import java.util.ArrayList;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.smarthome.core.library.types.OnOffType;
-import org.eclipse.smarthome.core.thing.ChannelUID;
-import org.eclipse.smarthome.core.thing.binding.ThingHandler;
-import org.eclipse.smarthome.core.types.Command;
+import org.openhab.core.library.types.OnOffType;
+import org.openhab.core.thing.ChannelUID;
+import org.openhab.core.thing.binding.ThingHandler;
+import org.openhab.core.types.Command;
 import org.openhab.binding.ipcamera.handler.IpCameraHandler;
 
 import io.netty.channel.ChannelDuplexHandler;

@@ -60,7 +60,7 @@ If you need a channel or control updated in case you have made a change with the
 
 
 ```java
-import org.eclipse.smarthome.core.types.RefreshType
+import org.openhab.core.types.RefreshType
 
 rule "refresh"
 when

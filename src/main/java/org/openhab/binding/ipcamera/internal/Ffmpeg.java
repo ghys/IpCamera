@@ -22,8 +22,8 @@ import java.io.InputStreamReader;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.smarthome.core.library.types.DecimalType;
-import org.eclipse.smarthome.core.library.types.OnOffType;
+import org.openhab.core.library.types.DecimalType;
+import org.openhab.core.library.types.OnOffType;
 import org.openhab.binding.ipcamera.handler.IpCameraHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

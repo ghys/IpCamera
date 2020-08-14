@@ -18,12 +18,12 @@ import static org.openhab.binding.ipcamera.IpCameraBindingConstants.*;
 import java.net.UnknownHostException;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.eclipse.smarthome.config.discovery.AbstractDiscoveryService;
-import org.eclipse.smarthome.config.discovery.DiscoveryResult;
-import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
-import org.eclipse.smarthome.config.discovery.DiscoveryService;
-import org.eclipse.smarthome.core.thing.ThingTypeUID;
-import org.eclipse.smarthome.core.thing.ThingUID;
+import org.openhab.core.config.discovery.AbstractDiscoveryService;
+import org.openhab.core.config.discovery.DiscoveryResult;
+import org.openhab.core.config.discovery.DiscoveryResultBuilder;
+import org.openhab.core.config.discovery.DiscoveryService;
+import org.openhab.core.thing.ThingTypeUID;
+import org.openhab.core.thing.ThingUID;
 import org.openhab.binding.ipcamera.handler.IpCameraHandler;
 import org.openhab.binding.ipcamera.onvif.OnvifDiscovery;
 import org.osgi.service.component.annotations.Component;
